@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "382569832661",
+    "project_id": "calorie-tracker-plus-plus",
+    "storage_bucket": "calorie-tracker-plus-plus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382569832661:android:ad37d4b57654d60034825c",
+        "android_client_info": {
+          "package_name": "com.example.calorietrackerplusplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSmebJ-dplilOjW81mb3ZRhf2UF919R-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
