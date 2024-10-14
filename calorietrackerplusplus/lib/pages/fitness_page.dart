@@ -26,24 +26,23 @@ class FitnessPage extends StatelessWidget {
                   FirebaseAuth.instance.signOut();
                 }),
         ),
-        //the commented code breaks the buttons
-        /* Consumer<ApplicationState>(
+        
+        Consumer<ApplicationState>(
         builder: (context, appState, _) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (true) ...[Row(children: <Widget>[ */
+          if (true) ...[Row(children: <Widget>[ 
 
             StyledButton(
               onPressed: () => context.push('/friends'),
               child: const Text('Go to Friends'),
             ), 
-            /*
+            
           ],
           ),
         ],
         ],
         ),
-      ),*/
+      ),
       ] )
         
           
