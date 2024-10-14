@@ -19,28 +19,31 @@ class FitnessPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Fitness'), ),
       body: ListView(children: <Widget>[
-        Consumer<ApplicationState>(
+        /*Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
                 loggedIn: appState.loggedIn,
                 signOut: () {
                   FirebaseAuth.instance.signOut();
                 }),
-        ),
-        Consumer<ApplicationState>(
+        ),*/
+        //the commented code breaks the buttons
+        /* Consumer<ApplicationState>(
         builder: (context, appState, _) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (true) ...[Row(children: <Widget>[
+          if (true) ...[Row(children: <Widget>[ */
+
             StyledButton(
               onPressed: () => context.push('/friends'),
               child: const Text('Go to Friends'),
-            ),
+            ), 
+            /*
           ],
           ),
         ],
         ],
         ),
-      ),
+      ),*/
       ] )
         
           
