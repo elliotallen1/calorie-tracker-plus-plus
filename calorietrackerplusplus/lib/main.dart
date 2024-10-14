@@ -1,3 +1,5 @@
+import 'package:calorietrackerplusplus/pages/fitness_page.dart';
+import 'package:calorietrackerplusplus/pages/friends_page.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart'; 
 import 'package:flutter/material.dart';      
 import 'package:go_router/go_router.dart';     
@@ -5,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart'; 
 import 'app_state.dart';                         
 
-import 'package:flutter/material.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,31 +22,15 @@ void main() {
 class App extends StatelessWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'CalorieTracker++',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 165, 244, 20)),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      routerConfig: _router,
     );
   }
 }
@@ -143,7 +129,7 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomePage(title: "Home"),
+      builder: (context, state) => const FitnessPage(),
       routes: [
         GoRoute(
           path: 'sign-in',
@@ -182,6 +168,7 @@ final _router = GoRouter(
                 })),
               ],
             );
+            
           },
           routes: [
             GoRoute(
@@ -209,6 +196,14 @@ final _router = GoRouter(
             );
           },
         ),
+        GoRoute(path: 'friends',
+        builder: (context, state){
+          return const FriendsPage();
+        }),
+        GoRoute(path: 'fitness',
+        builder: (context, state){
+          return const FitnessPage();
+        }),
       ],
     ),
   ],

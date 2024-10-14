@@ -8,6 +8,7 @@ import 'firebase_options.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
+    print("yes");
     init();
   }
 
@@ -15,20 +16,25 @@ class ApplicationState extends ChangeNotifier {
   bool get loggedIn => _loggedIn;
 
   Future<void> init() async {
+    print("init");
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
 
     FirebaseUIAuth.configureProviders([
       EmailAuthProvider(),
     ]);
-
+    print("uiauth");
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
+        print("logged");
         _loggedIn = true;
       } else {
+        print("notlog");
         _loggedIn = false;
       }
       notifyListeners();
+      print("notified");
     });
+    print("initend");
   }
 }

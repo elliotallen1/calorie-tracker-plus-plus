@@ -25,21 +25,21 @@ class AuthFunc extends StatelessWidget {
           padding: const EdgeInsets.only(left: 24, bottom: 8),
           child: StyledButton(
               onPressed: () {
+                print("pressed");
                 !loggedIn ? context.push('/sign-in') : signOut();
               },
-              child: !loggedIn ? const Text('RSVP') : const Text('Logout')),
+              child: !loggedIn ? const Text('Login') : const Text('Logout')),
         ),
         Visibility(
-          visible: loggedIn,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 24, bottom: 8),
-            child: StyledButton(
-                onPressed: () {
-                  context.push('/profile');
-                },
-                child: const Text('Profile')),
-          ),
-        )
+            visible: loggedIn,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 24, bottom: 8),
+              child: StyledButton(
+                  onPressed: () {
+                    context.push('/profile');
+                  },
+                  child: const Text('Profile')),
+            ))
       ],
     );
   }
