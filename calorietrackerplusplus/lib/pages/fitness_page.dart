@@ -17,8 +17,7 @@ class FitnessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Fitness'), ),
-      body: ListView(children: <Widget>[
+      appBar: AppBar(title: const Text('Fitness'), actions: <Widget>[
         Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
                 loggedIn: appState.loggedIn,
@@ -26,11 +25,14 @@ class FitnessPage extends StatelessWidget {
                   FirebaseAuth.instance.signOut();
                 }),
         ),
+      ],),
+      body: Column(children: <Widget>[
+        Expanded(child: Text("stuff")),
         
         Consumer<ApplicationState>(
         builder: (context, appState, _) => Column(
         children: [
-          if (true) ...[Row(children: <Widget>[ 
+          if (appState.loggedIn) ...[Row(children: <Widget>[ 
 
             StyledButton(
               onPressed: () => context.push('/friends'),
