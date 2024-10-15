@@ -27,12 +27,12 @@ class FitnessPage extends StatelessWidget {
         ),
       ],),
       body: Column(children: <Widget>[
-        Expanded(child: Text("stuff")),
         
         Consumer<ApplicationState>(
         builder: (context, appState, _) => Column(
         children: [
           if (appState.loggedIn) ...[
+            StyledButton(child: const Icon(Icons.add), onPressed: () {appState.addCaloriesToDay(5, DateTime(2024, 10, 15));}),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[ 
             StyledButton(
               onPressed: () {},
