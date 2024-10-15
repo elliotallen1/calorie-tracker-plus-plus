@@ -32,11 +32,15 @@ class FitnessPage extends StatelessWidget {
         Consumer<ApplicationState>(
         builder: (context, appState, _) => Column(
         children: [
-          if (appState.loggedIn) ...[Row(children: <Widget>[ 
-
+          if (appState.loggedIn) ...[
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[ 
+            StyledButton(
+              onPressed: () {},
+              child: const Text('Set Goal'),
+            ), 
             StyledButton(
               onPressed: () => context.push('/friends'),
-              child: const Text('Go to Friends'),
+              child: const Text('Friends'),
             ), 
             
           ],
