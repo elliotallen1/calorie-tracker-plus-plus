@@ -14,8 +14,10 @@ class FriendCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      shape: StadiumBorder(side: BorderSide(color: Colors.black)),
+      margin: const EdgeInsets.symmetric(vertical: 8.0), 
+      //color: Color.fromARGB(255, 165, 244, 20),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0),
+      side: BorderSide(color: Colors.black)),
       child: Column(
           children: [
             Text(
