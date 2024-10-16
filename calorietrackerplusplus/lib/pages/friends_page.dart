@@ -10,7 +10,10 @@ class FriendsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Friends'),
+        shape: Border(
+          bottom: BorderSide(color: Colors.black, width: 1.5),
+        ),
+        title: const Text('Friends'), backgroundColor: Color.fromARGB(255, 165, 244, 20),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('users').snapshots(),
