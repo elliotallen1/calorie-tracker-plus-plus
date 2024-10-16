@@ -15,6 +15,7 @@ class FriendCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
+      shape: StadiumBorder(side: BorderSide(color: Colors.black)),
       child: Column(
           children: [
             Text(
