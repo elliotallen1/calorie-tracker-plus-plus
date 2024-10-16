@@ -34,7 +34,7 @@ class FitnessPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          // Display progress as a fraction
+          // Display progress as a fraction and goal status
           Expanded(
             child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
@@ -42,14 +42,6 @@ class FitnessPage extends StatelessWidget {
                   .doc(userId)
                   .snapshots(),
               builder: (context, userSnapshot) {
-                if (userSnapshot.hasError) {
-                  return const Text('Error fetching data');
-                }
-
-                if (userSnapshot.connectionState == ConnectionState.waiting) {
-                  return const Text('Loading...');
-                }
-
                 // Fetch user data (calorie goal)
                 final userData = userSnapshot.data?.data() as Map<String, dynamic>?;
                 final calorieGoal = userData?['calorieGoal'] ?? 2000; // Default to 2000 if no goal is set
@@ -66,10 +58,37 @@ class FitnessPage extends StatelessWidget {
                     final progressData = progressSnapshot.data?.data() as Map<String, dynamic>?;
                     final caloriesConsumed = progressData?['caloriesConsumed'] ?? 0;
 
-                    // Display progress as a fraction
-                    return Text(
-                      'Calories: $caloriesConsumed / $calorieGoal',
-                      style: const TextStyle(fontSize: 18),
+                    // Determine if goal is completed
+                    final goalCompleted = caloriesConsumed >= calorieGoal;
+
+                    // Update goalCompleted in Firestore if it's not already set
+                    if (progressData?['goalCompleted'] != goalCompleted) {
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userId)
+                          .collection('progress')
+                          .doc(today)
+                          .set(
+                            {'goalCompleted': goalCompleted},
+                            SetOptions(merge: true),
+                          );
+                    }
+
+                    // Display progress and goal status
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Calories: $caloriesConsumed / $calorieGoal',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          goalCompleted
+                              ? 'Goal completed!'
+                              : 'Goal not yet completed.',
+                        ),
+                      ],
                     );
                   },
                 );
