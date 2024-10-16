@@ -20,7 +20,7 @@ class FitnessPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fitness'),
+        title: const Text('Fitness'), backgroundColor: Color.fromARGB(255, 165, 244, 20),
         actions: [
           Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
@@ -75,7 +75,7 @@ class FitnessPage extends StatelessWidget {
                     }
 
                     // Display progress and goal status
-                    return Column(
+                    return Container(decoration: BoxDecoration(color: Color.fromARGB(255, 165, 244, 20)), child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
@@ -89,6 +89,7 @@ class FitnessPage extends StatelessWidget {
                               : 'Goal not yet completed.',
                         ),
                       ],
+                    )
                     );
                   },
                 );
@@ -97,7 +98,8 @@ class FitnessPage extends StatelessWidget {
           ),
           
           Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
+            builder: (context, appState, _) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 if (appState.loggedIn) ...[
                   StyledButton(
@@ -109,10 +111,7 @@ class FitnessPage extends StatelessWidget {
                     },
                     child: const Text('Set Goal'),
                   ),
-                  StyledButton(
-                    onPressed: () => context.push('/friends'),
-                    child: const Text('Friends'),
-                  ),
+                  
                   StyledButton(
                     onPressed: () {
                       showDialog(
@@ -121,6 +120,10 @@ class FitnessPage extends StatelessWidget {
                       );
                     },
                     child: const Text('Log Calories'),
+                  ),
+                  StyledButton(
+                    onPressed: () => context.push('/friends'),
+                    child: const Text('Friends'),
                   ),
                 ],
               ],
