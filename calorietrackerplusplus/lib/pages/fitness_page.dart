@@ -19,18 +19,18 @@ class FitnessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  title: const Text('Fitness'),
-  actions: [
-    Consumer<ApplicationState>(
-      builder: (context, appState, _) => AuthFunc(
-        loggedIn: appState.loggedIn,
-        signOut: () {
-          FirebaseAuth.instance.signOut();
-        },
+        title: const Text('Fitness'),
+        actions: [
+          Consumer<ApplicationState>(
+            builder: (context, appState, _) => AuthFunc(
+              loggedIn: appState.loggedIn,
+              signOut: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
+          ),
+        ],
       ),
-    ),
-  ],
-),
       body: Column(
         children: <Widget>[
           Expanded(child: Text("stuff")),
@@ -38,15 +38,24 @@ class FitnessPage extends StatelessWidget {
             builder: (context, appState, _) => Column(
               children: [
                 if (appState.loggedIn) ...[
+                  // Existing "Set Goal" button
                   StyledButton(
                     onPressed: () {
                       _showSetGoalDialog(context, appState);
                     },
                     child: const Text('Set Goal'),
                   ),
+                  // Existing "Friends" button
                   StyledButton(
                     onPressed: () => context.push('/friends'),
                     child: const Text('Friends'),
+                  ),
+                  // New "Log Calories" button
+                  StyledButton(
+                    onPressed: () {
+                      _showLogCaloriesDialog(context);
+                    },
+                    child: const Text('Log Calories'),
                   ),
                 ],
               ],
@@ -57,6 +66,7 @@ class FitnessPage extends StatelessWidget {
     );
   }
 
+  // Existing Set Goal dialog
   void _showSetGoalDialog(BuildContext context, ApplicationState appState) {
     final _goalController = TextEditingController();
     
@@ -78,6 +88,56 @@ class FitnessPage extends StatelessWidget {
                       .collection('users')
                       .doc(FirebaseAuth.instance.currentUser!.uid)
                       .set({'calorieGoal': newGoal}, SetOptions(merge: true));
+              }
+              Navigator.of(context).pop();
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // New method to log calories
+  void _showLogCaloriesDialog(BuildContext context) {
+    final _calorieController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Log Calories Consumed'),
+        content: TextField(
+          controller: _calorieController,
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(hintText: 'Enter calories'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              if (_calorieController.text.isNotEmpty) {
+                final newCalories = int.parse(_calorieController.text);
+                final userId = FirebaseAuth.instance.currentUser!.uid;
+                final today = DateTime.now().toIso8601String().split('T')[0]; // YYYY-MM-DD
+
+                final progressDoc = FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userId)
+                    .collection('progress')
+                    .doc(today);
+
+                await FirebaseFirestore.instance.runTransaction((transaction) async {
+                  final snapshot = await transaction.get(progressDoc);
+                  if (snapshot.exists) {
+                    final currentCalories = snapshot.data()?['caloriesConsumed'] ?? 0;
+                    transaction.update(progressDoc, {
+                      'caloriesConsumed': currentCalories + newCalories,
+                    });
+                  } else {
+                    transaction.set(progressDoc, {
+                      'caloriesConsumed': newCalories,
+                    });
+                  }
+                });
               }
               Navigator.of(context).pop();
             },
