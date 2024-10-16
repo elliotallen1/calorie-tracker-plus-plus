@@ -117,6 +117,7 @@ class App extends StatelessWidget {
       title: 'CalorieTracker++',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 165, 244, 20)),
+        textTheme: GoogleFonts.fugazOneTextTheme(),
         useMaterial3: true,
       ),
       routerConfig: _router,

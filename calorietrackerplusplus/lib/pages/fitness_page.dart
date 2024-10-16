@@ -20,7 +20,10 @@ class FitnessPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fitness'), backgroundColor: Color.fromARGB(255, 165, 244, 20),
+        shape: Border(
+          bottom: BorderSide(color: Colors.black, width: 1.5),
+        ),
+        title: const Text('CalorieTracker++', style: TextStyle(fontSize: 16),), backgroundColor: Color.fromARGB(255, 165, 244, 20),
         actions: [
           Consumer<ApplicationState>(
             builder: (context, appState, _) => AuthFunc(
@@ -75,19 +78,26 @@ class FitnessPage extends StatelessWidget {
                     }
 
                     // Display progress and goal status
-                    return Container(decoration: BoxDecoration(color: Color.fromARGB(255, 165, 244, 20)), child: Column(
+                    return Container(decoration: BoxDecoration(color: Color.fromARGB(255, 255, 255, 255)), child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [   
+                        Column(children: [
+                          Text(
                           'Calories: $caloriesConsumed / $calorieGoal',
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 26),
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 10),
                         Text(
                           goalCompleted
                               ? 'Goal completed!'
                               : 'Goal not yet completed.',
+                          style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
+                          textAlign: TextAlign.center,
                         ),
+                        ],)
+                        
                       ],
                     )
                     );
@@ -98,7 +108,7 @@ class FitnessPage extends StatelessWidget {
           ),
           
           Consumer<ApplicationState>(
-            builder: (context, appState, _) => Row(
+            builder: (context, appState, _) => Container(decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1.5), color: Color.fromARGB(255, 165, 244, 20)), child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 if (appState.loggedIn) ...[
@@ -128,6 +138,7 @@ class FitnessPage extends StatelessWidget {
                 ],
               ],
             ),
+            )
           ),
         ],
       ),
