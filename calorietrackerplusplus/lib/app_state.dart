@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart'
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import 'firebase_options.dart';
 
@@ -18,9 +20,8 @@ class ApplicationState extends ChangeNotifier {
   bool _loggedIn = false;
   bool get loggedIn => _loggedIn;
 
-  StreamSubscription<QuerySnapshot>? _caloriesSubscription;
-  List<DaysCalories> _daysCalories = [];
-  List<DaysCalories> get daysCalories => _daysCalories;
+  // Firestore instance
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -29,59 +30,33 @@ class ApplicationState extends ChangeNotifier {
     FirebaseUIAuth.configureProviders([
       EmailAuthProvider(),
     ]);
-    FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loggedIn = true;
-      } else {
-        _loggedIn = false;
-      }
-      notifyListeners();
-    });
 
     FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loggedIn = true;
-        _caloriesSubscription = FirebaseFirestore.instance
-            .collection('calories')
-            .orderBy('day', descending: true)
-            .snapshots()
-            .listen((snapshot) {
-          _daysCalories = [];
-          for (final document in snapshot.docs) {
-            _daysCalories.add(
-              DaysCalories(
-                calories: document.data()['calories'] as int,
-                day: document.data()['day'] as DateTime,
-                goal: 0,
-              ),
-            );
-          }
-          notifyListeners();
-        });
-      } else {
-        _loggedIn = false;
-        _daysCalories = [];
-        _caloriesSubscription?.cancel();
-      }
-      notifyListeners();
-    });
+  if (user != null) {
+    _loggedIn = true;
+    _initializeUserInFirestore(user.uid);
+    print("User is logged in: ${user.email}");
+  } else {
+    _loggedIn = false;
+    print("User is not logged in");
+  }
+  notifyListeners();
+});
+
   }
 
-
-  Future<DocumentReference> addCaloriesToDay(int c, DateTime day) {
-    if (!_loggedIn) {
-      throw Exception('Must be logged in');
+  Future<void> _initializeUserInFirestore(String userId) async {
+    // Check if the user already exists in Firestore
+    final userDoc = _firestore.collection('users').doc(userId);
+    final docSnapshot = await userDoc.get();
+    
+    if (!docSnapshot.exists) {
+      // Create user document with default values if it doesn't exist
+      await userDoc.set({
+        'email': FirebaseAuth.instance.currentUser!.email,
+        'calorieGoal': 2000, // Default goal
+        'friends': [],
+      });
     }
-
-    return FirebaseFirestore.instance
-        .collection('calories')
-        .add(<String, dynamic>{
-      'calories': 10,
-      'day': day,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-      'goal': 0,
-    });
   }
-
 }
