@@ -1,14 +1,12 @@
 import 'package:calorietrackerplusplus/pages/fitness_page.dart';
 import 'package:calorietrackerplusplus/pages/friends_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart'; 
-import 'package:flutter/material.dart';      
-import 'package:go_router/go_router.dart';     
-import 'package:provider/provider.dart';                
-import 'package:google_fonts/google_fonts.dart'; 
-import 'app_state.dart';                         
-
-
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'app_state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +18,6 @@ void main() async {
     builder: ((context, child) => const App()),
   ));
 }
-
 
 final _router = GoRouter(
   routes: [
@@ -65,7 +62,6 @@ final _router = GoRouter(
                 })),
               ],
             );
-            
           },
           routes: [
             GoRoute(
@@ -93,20 +89,20 @@ final _router = GoRouter(
             );
           },
         ),
-        GoRoute(path: 'friends',
-        builder: (context, state){
-          return const FriendsPage();
-        }),
-        GoRoute(path: 'fitness',
-        builder: (context, state){
-          return const FitnessPage();
-        }),
+        GoRoute(
+            path: 'friends',
+            builder: (context, state) {
+              return const FriendsPage();
+            }),
+        GoRoute(
+            path: 'fitness',
+            builder: (context, state) {
+              return const FitnessPage();
+            }),
       ],
     ),
   ],
 );
-
-
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -116,7 +112,8 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: 'CalorieTracker++',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 165, 244, 20)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 165, 244, 20)),
         textTheme: GoogleFonts.fugazOneTextTheme(),
         useMaterial3: true,
       ),
@@ -124,5 +121,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-
