@@ -79,13 +79,25 @@ final _router = GoRouter(
         GoRoute(
           path: 'profile',
           builder: (context, state) {
-            return ProfileScreen(
-              providers: const [],
-              actions: [
-                SignedOutAction((context) {
-                  context.pushReplacement('/');
-                }),
-              ],
+            return Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => context.pop(),
+                ),
+                backgroundColor: const Color.fromARGB(255, 165, 244, 20),
+                shape: const Border(
+                  bottom: BorderSide(color: Colors.black, width: 1.5),
+                ),
+              ),
+              body: ProfileScreen(
+                providers: const [],
+                actions: [
+                  SignedOutAction((context) {
+                    context.pushReplacement('/');
+                  }),
+                ],
+              ),
             );
           },
         ),
