@@ -7,6 +7,8 @@ class LogCaloriesDialog extends StatelessWidget {
 
   LogCaloriesDialog({super.key});
 
+  get currentCalories => 0;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
