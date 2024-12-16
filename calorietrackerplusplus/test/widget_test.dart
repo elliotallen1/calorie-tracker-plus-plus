@@ -8,7 +8,7 @@ import 'package:calorietrackerplusplus/set_goal_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-
+// just making sure that it starts at 0
 void main() {
     test('Counter should start at 0', () {
       final counter = LogCaloriesDialog();
@@ -17,6 +17,7 @@ void main() {
 
     });
 
+// ensuring the prompt to input goal does pop up
   testWidgets('SetGoalDialog builds correctly', (tester) async {  
     await tester.pumpWidget(  
       MaterialApp(  
@@ -30,7 +31,9 @@ void main() {
     expect(find.byType(TextField), findsOneWidget);  
     expect(find.text('Save'), findsOneWidget);  
     });  
-    
+  
+  // making sure that the save button doesn't save a null 
+  //response (so we're getting rid of its opportunity to)
   testWidgets('Save button is disabled when text field is empty', (tester) async {  
    await tester.pumpWidget(  
     MaterialApp(  
