@@ -1,39 +1,51 @@
-// This is a basic Flutter widget test.
-//
 // To perform an interaction with a widget in your test, use the WidgetTester
 // utility in the flutter_test package. For example, you can send tap and scroll
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:calorietrackerplusplus/log_calories_dialog.dart';
+import 'package:calorietrackerplusplus/set_goal_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:calorietrackerplusplus/main.dart';
 
 void main() {
-  // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-  //   // Build our app and trigger a frame.
-  //   await tester.pumpWidget(const App());
-
-  //   // Verify that our counter starts at 0.
-  //   expect(find.text('0'), findsOneWidget);
-  //   expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    // await tester.tap(find.byIcon(Icons.add));
-    // await tester.pump();
-
-    // Verify that our counter has incremented.
-    // expect(find.text('0'), findsNothing);
-    // expect(find.text('1'), findsOneWidget);
-
     test('Counter should start at 0', () {
       final counter = LogCaloriesDialog();
 
       expect(counter.currentCalories, 0);
 
     });
-  // });
+
+  testWidgets('SetGoalDialog builds correctly', (tester) async {  
+    await tester.pumpWidget(  
+      MaterialApp(  
+        home: Scaffold(  
+        body: SetGoalDialog(),  
+        ),  
+      ),  
+    );  
+    
+    expect(find.text('Set Daily Calorie Goal'), findsOneWidget);  
+    expect(find.byType(TextField), findsOneWidget);  
+    expect(find.text('Save'), findsOneWidget);  
+    });  
+    
+  testWidgets('Save button is disabled when text field is empty', (tester) async {  
+   await tester.pumpWidget(  
+    MaterialApp(  
+      home: Scaffold(  
+       body: SetGoalDialog(),  
+      ),  
+    ),  
+   );  
+  
+   final saveButton = find.text('Save');  
+   expect(saveButton, findsOneWidget);  
+  
+   await tester.tap(saveButton);  
+   await tester.pumpAndSettle();  
+   expect(find.text('Set Daily Calorie Goal'), findsNothing);  
+  });
 
 }
